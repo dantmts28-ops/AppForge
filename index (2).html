@@ -1,0 +1,1892 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width,initial-scale=1.0,
+      maximum-scale=1.0,user-scalable=no">
+
+<title>AppForge</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    -webkit-tap-highlight-color:transparent;
+}
+
+:root{
+    --bg:#000000;
+    --card:#17171b;
+    --card2:#202026;
+    --border:#303038;
+    --text:#ffffff;
+    --muted:#92929c;
+    --blue:#38bdf8;
+    --blue-dark:#102f40;
+}
+
+body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:Arial,Helvetica,sans-serif;
+    min-height:100vh;
+    overflow-x:hidden;
+}
+
+button,
+input,
+textarea{
+    font-family:inherit;
+}
+
+button{
+    cursor:pointer;
+}
+
+.app{
+    width:100%;
+    max-width:600px;
+    min-height:100vh;
+    margin:auto;
+    padding:24px 20px 110px;
+}
+
+/* =========================
+   TELA PRINCIPAL
+========================= */
+
+.topo{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:30px;
+}
+
+.titulo{
+    font-size:24px;
+    font-weight:700;
+}
+
+.menu{
+    width:42px;
+    height:42px;
+    border:0;
+    background:transparent;
+    color:#aaa;
+    font-size:28px;
+    border-radius:12px;
+}
+
+.menu:active{
+    background:#18181b;
+}
+
+.criar{
+    width:100%;
+    height:70px;
+    border:0;
+    border-radius:18px;
+    background:var(--blue);
+    color:#071018;
+    font-size:17px;
+    font-weight:700;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:12px;
+    box-shadow:0 8px 30px rgba(56,189,248,.15);
+    transition:.2s;
+}
+
+.criar:active{
+    transform:scale(.97);
+}
+
+.mais{
+    font-size:28px;
+    font-weight:400;
+}
+
+.area-vazia{
+    min-height:520px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+}
+
+.animacao{
+    position:relative;
+    width:260px;
+    height:220px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin-bottom:25px;
+}
+
+.celular{
+    width:105px;
+    height:175px;
+    border:3px solid var(--blue);
+    border-radius:20px;
+    position:relative;
+    background:#050505;
+    box-shadow:0 0 25px rgba(56,189,248,.18);
+    animation:flutuar 3s ease-in-out infinite;
+}
+
+.celular:before{
+    content:"";
+    position:absolute;
+    top:9px;
+    left:50%;
+    transform:translateX(-50%);
+    width:35px;
+    height:4px;
+    border-radius:10px;
+    background:var(--blue);
+}
+
+.tela{
+    position:absolute;
+    left:12px;
+    right:12px;
+    top:28px;
+    bottom:15px;
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+}
+
+.linha{
+    height:9px;
+    border-radius:8px;
+    background:#1e3a4a;
+}
+
+.linha.azul{
+    width:75%;
+    background:var(--blue);
+}
+
+.linha.pequena{
+    width:50%;
+}
+
+.codigo{
+    position:absolute;
+    top:18px;
+    left:20px;
+    color:var(--blue);
+    font-size:28px;
+    animation:codigo 3s ease-in-out infinite;
+}
+
+.engrenagem{
+    position:absolute;
+    right:18px;
+    top:45px;
+    font-size:31px;
+    animation:girar 5s linear infinite;
+}
+
+.brilho{
+    position:absolute;
+    right:34px;
+    bottom:32px;
+    color:var(--blue);
+    font-size:25px;
+    animation:brilho 1.8s ease-in-out infinite;
+}
+
+.ponto{
+    position:absolute;
+    width:7px;
+    height:7px;
+    border-radius:50%;
+    background:var(--blue);
+    opacity:.7;
+}
+
+.p1{
+    left:15px;
+    bottom:50px;
+    animation:subir 2s infinite;
+}
+
+.p2{
+    right:5px;
+    bottom:70px;
+    animation:subir 2.5s infinite .5s;
+}
+
+.p3{
+    left:50px;
+    top:0;
+    animation:subir 2.2s infinite 1s;
+}
+
+.mensagem{
+    color:#999;
+    font-size:16px;
+    line-height:1.5;
+}
+
+.mensagem strong{
+    display:block;
+    color:#fff;
+    font-size:18px;
+    margin-bottom:6px;
+}
+
+/* =========================
+   PROJETOS
+========================= */
+
+.lista-projetos{
+    margin-top:25px;
+}
+
+.projeto{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:17px;
+    padding:15px;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    margin-bottom:10px;
+}
+
+.projeto-icone{
+    width:48px;
+    height:48px;
+    border-radius:14px;
+    background:var(--blue-dark);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+    flex-shrink:0;
+}
+
+.projeto-icone img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.icone-padrao{
+    font-size:23px;
+}
+
+.projeto-info{
+    flex:1;
+    min-width:0;
+}
+
+.projeto-info strong{
+    display:block;
+    font-size:16px;
+    margin-bottom:5px;
+    overflow:hidden;
+    white-space:nowrap;
+    text-overflow:ellipsis;
+}
+
+.projeto-info small{
+    color:#777;
+}
+
+.abrir{
+    border:0;
+    background:var(--blue);
+    color:#071018;
+    border-radius:10px;
+    padding:9px 12px;
+    font-weight:bold;
+}
+
+/* =========================
+   MODAL CONSTRUÇÃO
+========================= */
+
+.modal{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.78);
+    display:none;
+    align-items:flex-end;
+    justify-content:center;
+    z-index:50;
+}
+
+.modal.aberto{
+    display:flex;
+}
+
+.caixa{
+    width:100%;
+    max-width:600px;
+    background:#18181c;
+    border:1px solid #29292f;
+    border-radius:28px 28px 0 0;
+    padding:25px 20px 35px;
+    animation:entrada .25s ease;
+    max-height:90vh;
+    overflow-y:auto;
+}
+
+.caixa h2{
+    font-size:22px;
+    margin-bottom:7px;
+}
+
+.caixa-sub{
+    color:#8c8c95;
+    font-size:14px;
+    margin-bottom:22px;
+}
+
+/* OPÇÃO CONSTRUÇÃO */
+
+.opcao{
+    width:100%;
+    border:1px solid var(--border);
+    background:#111114;
+    color:#fff;
+    border-radius:17px;
+    padding:17px;
+    display:flex;
+    align-items:center;
+    gap:14px;
+    text-align:left;
+    margin-bottom:11px;
+    transition:.2s;
+}
+
+.opcao:active{
+    transform:scale(.98);
+}
+
+.opcao-icon{
+    width:46px;
+    height:46px;
+    border-radius:13px;
+    background:var(--blue-dark);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:var(--blue);
+    font-size:23px;
+}
+
+.opcao-info{
+    flex:1;
+}
+
+.opcao-info strong{
+    display:block;
+    font-size:16px;
+    margin-bottom:5px;
+}
+
+.opcao-info span{
+    color:#81818b;
+    font-size:12px;
+    line-height:1.4;
+}
+
+/* =========================
+   TELA CONSTRUÇÃO RÁPIDA
+========================= */
+
+.tela-construcao{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:#000;
+    z-index:80;
+    overflow-y:auto;
+}
+
+.tela-construcao.aberta{
+    display:block;
+}
+
+.construcao-container{
+    width:100%;
+    max-width:600px;
+    margin:auto;
+    padding:25px 20px 50px;
+}
+
+.construcao-topo{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    margin-bottom:28px;
+}
+
+.voltar{
+    width:42px;
+    height:42px;
+    border:0;
+    background:transparent;
+    color:#fff;
+    font-size:28px;
+    border-radius:12px;
+}
+
+.voltar:active{
+    background:#171717;
+}
+
+.construcao-titulo{
+    font-size:23px;
+    font-weight:bold;
+}
+
+/* CAMPOS */
+
+.campo-label{
+    display:block;
+    color:#b7b7c0;
+    font-size:14px;
+    margin-bottom:9px;
+}
+
+.input{
+    width:100%;
+    height:57px;
+    border:1px solid #3a3a42;
+    border-radius:14px;
+    background:#050505;
+    color:#fff;
+    padding:0 16px;
+    font-size:16px;
+    outline:none;
+    margin-bottom:22px;
+}
+
+.input:focus{
+    border-color:var(--blue);
+}
+
+.fontes{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:8px;
+    margin-bottom:14px;
+}
+
+.fonte{
+    min-height:68px;
+    border:1px solid #34343b;
+    background:#0c0c0e;
+    color:#999;
+    border-radius:14px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:6px;
+    font-size:12px;
+}
+
+.fonte span:first-child{
+    font-size:22px;
+}
+
+.fonte.ativo{
+    background:#102f40;
+    border-color:var(--blue);
+    color:var(--blue);
+}
+
+.area-conteudo{
+    display:none;
+}
+
+.area-conteudo.ativo{
+    display:block;
+}
+
+.textarea{
+    width:100%;
+    min-height:230px;
+    resize:vertical;
+    border:1px solid #36363e;
+    border-radius:15px;
+    background:#070707;
+    color:#d9f5ff;
+    padding:15px;
+    font-size:13px;
+    line-height:1.5;
+    outline:none;
+    margin-bottom:20px;
+}
+
+.textarea:focus{
+    border-color:var(--blue);
+}
+
+.file-input{
+    width:100%;
+    padding:15px;
+    border:1px dashed #3b3b44;
+    border-radius:14px;
+    background:#080808;
+    color:#aaa;
+    margin-bottom:20px;
+}
+
+.url-box{
+    display:flex;
+    gap:8px;
+}
+
+.url-box .input{
+    margin-bottom:20px;
+}
+
+/* ÍCONE */
+
+.icone-area{
+    display:flex;
+    align-items:center;
+    gap:15px;
+    margin-bottom:25px;
+}
+
+.preview-icone{
+    width:82px;
+    height:82px;
+    border-radius:22px;
+    background:#222228;
+    border:1px solid #36363e;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+    flex-shrink:0;
+}
+
+.preview-icone img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.preview-placeholder{
+    font-size:34px;
+    color:#85858d;
+}
+
+.botao-icone{
+    flex:1;
+    height:55px;
+    border:1px solid #3b3b43;
+    border-radius:14px;
+    background:#080808;
+    color:var(--blue);
+    font-weight:bold;
+}
+
+/* BOTÃO APK */
+
+.botao-apk{
+    width:100%;
+    min-height:65px;
+    border:0;
+    border-radius:18px;
+    background:var(--blue);
+    color:#071018;
+    font-size:16px;
+    font-weight:bold;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+    box-shadow:0 8px 30px rgba(56,189,248,.15);
+    margin-top:10px;
+}
+
+.botao-apk:active{
+    transform:scale(.98);
+}
+
+.aviso{
+    color:#666;
+    font-size:11px;
+    text-align:center;
+    line-height:1.5;
+    margin-top:12px;
+}
+
+/* =========================
+   PRÉ-VISUALIZAÇÃO
+========================= */
+
+.preview-tela{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:#000;
+    z-index:100;
+}
+
+.preview-tela.aberta{
+    display:flex;
+    flex-direction:column;
+}
+
+.preview-topo{
+    height:62px;
+    background:#17171b;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:0 15px;
+    border-bottom:1px solid #29292f;
+}
+
+.preview-topo strong{
+    flex:1;
+}
+
+.preview-fechar{
+    width:40px;
+    height:40px;
+    border:0;
+    background:#29292f;
+    color:#fff;
+    border-radius:12px;
+    font-size:18px;
+}
+
+.preview-frame{
+    flex:1;
+    width:100%;
+    border:0;
+    background:#fff;
+}
+
+/* =========================
+   NAVEGAÇÃO
+========================= */
+
+.nav{
+    position:fixed;
+    bottom:14px;
+    left:50%;
+    transform:translateX(-50%);
+    width:calc(100% - 40px);
+    max-width:520px;
+    height:78px;
+    background:#18181c;
+    border-radius:40px;
+    display:flex;
+    align-items:center;
+    justify-content:space-around;
+    padding:7px;
+    box-shadow:0 8px 35px rgba(0,0,0,.7);
+    z-index:20;
+}
+
+.nav-item{
+    width:31%;
+    height:64px;
+    border:0;
+    background:transparent;
+    color:#888;
+    border-radius:30px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:5px;
+    font-size:12px;
+}
+
+.nav-icon{
+    font-size:24px;
+}
+
+.nav-item.ativo{
+    color:var(--blue);
+    background:#153344;
+}
+
+.nav-item:active{
+    transform:scale(.95);
+}
+
+/* =========================
+   TOAST
+========================= */
+
+.toast{
+    position:fixed;
+    left:50%;
+    bottom:105px;
+    transform:translateX(-50%) translateY(20px);
+    background:#24242a;
+    border:1px solid #383840;
+    color:#fff;
+    padding:13px 17px;
+    border-radius:13px;
+    font-size:13px;
+    opacity:0;
+    pointer-events:none;
+    transition:.3s;
+    z-index:200;
+    width:max-content;
+    max-width:90%;
+    text-align:center;
+}
+
+.toast.mostrar{
+    opacity:1;
+    transform:translateX(-50%) translateY(0);
+}
+
+/* =========================
+   ANIMAÇÕES
+========================= */
+
+@keyframes flutuar{
+    0%,100%{
+        transform:translateY(0);
+    }
+    50%{
+        transform:translateY(-10px);
+    }
+}
+
+@keyframes codigo{
+    0%,100%{
+        transform:translateY(0);
+    }
+    50%{
+        transform:translateY(-8px);
+    }
+}
+
+@keyframes girar{
+    from{
+        transform:rotate(0deg);
+    }
+    to{
+        transform:rotate(360deg);
+    }
+}
+
+@keyframes brilho{
+    0%,100%{
+        opacity:.3;
+        transform:scale(.8);
+    }
+    50%{
+        opacity:1;
+        transform:scale(1.2);
+    }
+}
+
+@keyframes subir{
+    0%{
+        transform:translateY(15px);
+        opacity:0;
+    }
+    50%{
+        opacity:1;
+    }
+    100%{
+        transform:translateY(-20px);
+        opacity:0;
+    }
+}
+
+@keyframes entrada{
+    from{
+        transform:translateY(30px);
+        opacity:0;
+    }
+    to{
+        transform:translateY(0);
+        opacity:1;
+    }
+}
+
+@media(max-width:380px){
+
+    .app{
+        padding-left:15px;
+        padding-right:15px;
+    }
+
+    .titulo{
+        font-size:21px;
+    }
+
+    .fontes{
+        gap:5px;
+    }
+
+    .fonte{
+        font-size:11px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- =========================
+     APP PRINCIPAL
+========================= -->
+
+<div class="app">
+
+    <div class="topo">
+
+        <div class="titulo">
+            Meus Projetos
+        </div>
+
+        <button class="menu"
+                onclick="mostrarInfo()">
+            ⋮
+        </button>
+
+    </div>
+
+    <button class="criar"
+            onclick="abrirConstruir()">
+
+        <span class="mais">＋</span>
+
+        Criar projeto
+
+    </button>
+
+    <div id="listaProjetos"
+         class="lista-projetos">
+    </div>
+
+    <div class="area-vazia"
+         id="areaVazia">
+
+        <div class="animacao">
+
+            <div class="codigo">
+                &lt;/&gt;
+            </div>
+
+            <div class="engrenagem">
+                ⚙️
+            </div>
+
+            <div class="brilho">
+                ✦
+            </div>
+
+            <div class="ponto p1"></div>
+            <div class="ponto p2"></div>
+            <div class="ponto p3"></div>
+
+            <div class="celular">
+
+                <div class="tela">
+
+                    <div class="linha azul"></div>
+                    <div class="linha"></div>
+                    <div class="linha pequena"></div>
+                    <div class="linha"></div>
+                    <div class="linha azul"></div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="mensagem">
+
+            <strong>Nenhum projeto ainda</strong>
+
+            Toque em ＋ para criar um!
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================
+     NAVEGAÇÃO
+========================= -->
+
+<div class="nav">
+
+    <button class="nav-item ativo"
+            onclick="irProjetos()">
+
+        <span class="nav-icon">⌂</span>
+        Projetos
+
+    </button>
+
+    <button class="nav-item"
+            onclick="mostrarToast('Modelos em breve')">
+
+        <span class="nav-icon">🛠</span>
+        Modelos
+
+    </button>
+
+    <button class="nav-item"
+            onclick="mostrarToast('Configurações em breve')">
+
+        <span class="nav-icon">⚙</span>
+        Configurações
+
+    </button>
+
+</div>
+
+
+<!-- =========================
+     MODAL ESCOLHA
+========================= -->
+
+<div class="modal"
+     id="modalEscolha">
+
+    <div class="caixa">
+
+        <h2>
+            Como você deseja construir?
+        </h2>
+
+        <p class="caixa-sub">
+            Escolha uma forma de começar seu aplicativo.
+        </p>
+
+        <!-- SOMENTE CONSTRUÇÃO RÁPIDA POR ENQUANTO -->
+
+        <button class="opcao"
+                onclick="abrirConstrucaoRapida()">
+
+            <div class="opcao-icon">
+                ⚡
+            </div>
+
+            <div class="opcao-info">
+
+                <strong>
+                    Construção rápida
+                </strong>
+
+                <span>
+                    Informe o nome, HTML e ícone
+                    para preparar seu aplicativo.
+                </span>
+
+            </div>
+
+            <span>›</span>
+
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- =========================
+     CONSTRUÇÃO RÁPIDA
+========================= -->
+
+<div class="tela-construcao"
+     id="telaConstrucao">
+
+    <div class="construcao-container">
+
+        <div class="construcao-topo">
+
+            <button class="voltar"
+                    onclick="fecharConstrucao()">
+                ‹
+            </button>
+
+            <div class="construcao-titulo">
+                Construção rápida
+            </div>
+
+        </div>
+
+
+        <!-- NOME -->
+
+        <label class="campo-label">
+            Nome do aplicativo
+        </label>
+
+        <input
+            id="nomeApp"
+            class="input"
+            type="text"
+            placeholder="Meu aplicativo incrível"
+        >
+
+
+        <!-- FONTE -->
+
+        <label class="campo-label">
+            Fonte de conteúdo
+        </label>
+
+        <div class="fontes">
+
+            <button
+                class="fonte ativo"
+                id="fonteArquivo"
+                onclick="selecionarFonte('arquivo')">
+
+                <span>📄</span>
+                <span>Arquivo HTML</span>
+
+            </button>
+
+            <button
+                class="fonte"
+                id="fonteUrl"
+                onclick="selecionarFonte('url')">
+
+                <span>🔗</span>
+                <span>URL</span>
+
+            </button>
+
+            <button
+                class="fonte"
+                id="fonteColar"
+                onclick="selecionarFonte('colar')">
+
+                <span>✎</span>
+                <span>Colar HTML</span>
+
+            </button>
+
+        </div>
+
+
+        <!-- ARQUIVO -->
+
+        <div
+            class="area-conteudo ativo"
+            id="areaArquivo">
+
+            <input
+                id="arquivoHtml"
+                class="file-input"
+                type="file"
+                accept=".html,.htm,text/html"
+                onchange="lerArquivoHTML(event)"
+            >
+
+        </div>
+
+
+        <!-- URL -->
+
+        <div
+            class="area-conteudo"
+            id="areaUrl">
+
+            <input
+                id="urlHtml"
+                class="input"
+                type="url"
+                placeholder="https://exemplo.com"
+            >
+
+        </div>
+
+
+        <!-- COLAR HTML -->
+
+        <div
+            class="area-conteudo"
+            id="areaColar">
+
+            <textarea
+                id="codigoHtml"
+                class="textarea"
+                placeholder="Cole seu código HTML aqui..."
+            ></textarea>
+
+        </div>
+
+
+        <!-- ÍCONE -->
+
+        <label class="campo-label">
+            Selecionar ícone (opcional)
+        </label>
+
+        <div class="icone-area">
+
+            <div class="preview-icone"
+                 id="previewIcone">
+
+                <div class="preview-placeholder">
+                    🖼️
+                </div>
+
+            </div>
+
+            <button
+                class="botao-icone"
+                onclick="document.getElementById('arquivoIcone').click()">
+
+                🖼️ Selecionar ícone
+
+            </button>
+
+            <input
+                id="arquivoIcone"
+                type="file"
+                accept="image/*"
+                style="display:none"
+                onchange="lerIcone(event)"
+            >
+
+        </div>
+
+
+        <!-- PRÉVIA -->
+
+        <button
+            class="botao-icone"
+            style="width:100%;margin-bottom:10px"
+            onclick="abrirPreview()">
+
+            👁️ Pré-visualizar aplicativo
+
+        </button>
+
+
+        <!-- CONSTRUIR -->
+
+        <button
+            class="botao-apk"
+            onclick="criarProjeto()">
+
+            🔧
+            Criar e construir APK
+
+        </button>
+
+        <div class="aviso">
+
+            O AppForge salva o projeto neste aparelho.
+            A compilação real do APK será conectada
+            na próxima etapa.
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================
+     PRÉ-VISUALIZAÇÃO
+========================= -->
+
+<div class="preview-tela"
+     id="previewTela">
+
+    <div class="preview-topo">
+
+        <button
+            class="preview-fechar"
+            onclick="fecharPreview()">
+            ←
+        </button>
+
+        <strong id="previewNome">
+            Pré-visualização
+        </strong>
+
+    </div>
+
+    <iframe
+        id="previewFrame"
+        class="preview-frame">
+    </iframe>
+
+</div>
+
+
+<!-- TOAST -->
+
+<div class="toast"
+     id="toast">
+</div>
+
+
+<script>
+
+/* =================================
+   VARIÁVEIS
+================================= */
+
+let projetos =
+    JSON.parse(
+        localStorage.getItem("appforge_projetos") || "[]"
+    );
+
+let fonteAtual = "arquivo";
+
+let htmlAtual = "";
+
+let iconeAtual = "";
+
+
+/* =================================
+   MODAL CRIAR
+================================= */
+
+function abrirConstruir(){
+
+    document
+        .getElementById("modalEscolha")
+        .classList.add("aberto");
+
+}
+
+
+/* =================================
+   CONSTRUÇÃO RÁPIDA
+================================= */
+
+function abrirConstrucaoRapida(){
+
+    document
+        .getElementById("modalEscolha")
+        .classList.remove("aberto");
+
+    document
+        .getElementById("telaConstrucao")
+        .classList.add("aberta");
+
+}
+
+
+/* =================================
+   FECHAR CONSTRUÇÃO
+================================= */
+
+function fecharConstrucao(){
+
+    document
+        .getElementById("telaConstrucao")
+        .classList.remove("aberta");
+
+}
+
+
+/* =================================
+   ESCOLHER FONTE
+================================= */
+
+function selecionarFonte(tipo){
+
+    fonteAtual = tipo;
+
+    document
+        .querySelectorAll(".fonte")
+        .forEach(function(botao){
+
+            botao.classList.remove("ativo");
+
+        });
+
+    document
+        .getElementById(
+            tipo === "arquivo"
+            ? "fonteArquivo"
+            : tipo === "url"
+            ? "fonteUrl"
+            : "fonteColar"
+        )
+        .classList.add("ativo");
+
+
+    document
+        .querySelectorAll(".area-conteudo")
+        .forEach(function(area){
+
+            area.classList.remove("ativo");
+
+        });
+
+
+    if(tipo === "arquivo"){
+
+        document
+            .getElementById("areaArquivo")
+            .classList.add("ativo");
+
+    }
+
+    if(tipo === "url"){
+
+        document
+            .getElementById("areaUrl")
+            .classList.add("ativo");
+
+    }
+
+    if(tipo === "colar"){
+
+        document
+            .getElementById("areaColar")
+            .classList.add("ativo");
+
+    }
+
+}
+
+
+/* =================================
+   LER HTML DO ARQUIVO
+================================= */
+
+function lerArquivoHTML(event){
+
+    const arquivo =
+        event.target.files[0];
+
+    if(!arquivo) return;
+
+    const leitor =
+        new FileReader();
+
+    leitor.onload = function(e){
+
+        htmlAtual =
+            e.target.result;
+
+        mostrarToast(
+            "Arquivo HTML carregado."
+        );
+
+    };
+
+    leitor.readAsText(arquivo);
+
+}
+
+
+/* =================================
+   LER ÍCONE
+================================= */
+
+function lerIcone(event){
+
+    const arquivo =
+        event.target.files[0];
+
+    if(!arquivo) return;
+
+    const leitor =
+        new FileReader();
+
+    leitor.onload = function(e){
+
+        iconeAtual =
+            e.target.result;
+
+        document
+            .getElementById("previewIcone")
+            .innerHTML =
+            '<img src="' +
+            iconeAtual +
+            '" alt="Ícone">';
+
+        mostrarToast(
+            "Ícone selecionado."
+        );
+
+    };
+
+    leitor.readAsDataURL(arquivo);
+
+}
+
+
+/* =================================
+   PEGAR HTML ATUAL
+================================= */
+
+function obterHTML(){
+
+    if(fonteAtual === "arquivo"){
+
+        return htmlAtual;
+
+    }
+
+    if(fonteAtual === "colar"){
+
+        return document
+            .getElementById("codigoHtml")
+            .value;
+
+    }
+
+    if(fonteAtual === "url"){
+
+        const url =
+            document
+            .getElementById("urlHtml")
+            .value
+            .trim();
+
+        if(url){
+
+            return `
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+content="width=device-width,initial-scale=1">
+<title>AppForge</title>
+</head>
+<body>
+<script>
+window.location.href =
+${JSON.stringify(url)};
+<\/script>
+</body>
+</html>
+`;
+
+        }
+
+    }
+
+    return "";
+
+}
+
+
+/* =================================
+   PRÉ-VISUALIZAÇÃO
+================================= */
+
+function abrirPreview(){
+
+    const nome =
+        document
+        .getElementById("nomeApp")
+        .value
+        .trim() ||
+        "Meu aplicativo";
+
+
+    const html =
+        obterHTML();
+
+
+    if(!html){
+
+        mostrarToast(
+            "Adicione o conteúdo HTML primeiro."
+        );
+
+        return;
+
+    }
+
+
+    document
+        .getElementById("previewNome")
+        .textContent =
+        nome;
+
+
+    document
+        .getElementById("previewFrame")
+        .srcdoc =
+        html;
+
+
+    document
+        .getElementById("previewTela")
+        .classList.add("aberta");
+
+}
+
+
+/* =================================
+   FECHAR PRÉVIA
+================================= */
+
+function fecharPreview(){
+
+    document
+        .getElementById("previewTela")
+        .classList.remove("aberta");
+
+}
+
+
+/* =================================
+   CRIAR PROJETO
+================================= */
+
+function criarProjeto(){
+
+    const nome =
+        document
+        .getElementById("nomeApp")
+        .value
+        .trim();
+
+
+    if(!nome){
+
+        mostrarToast(
+            "Digite o nome do aplicativo."
+        );
+
+        return;
+
+    }
+
+
+    const html =
+        obterHTML();
+
+
+    if(!html){
+
+        mostrarToast(
+            "Adicione o conteúdo HTML."
+        );
+
+        return;
+
+    }
+
+
+    const projeto = {
+
+        id:Date.now(),
+
+        nome:nome,
+
+        html:html,
+
+        icone:iconeAtual,
+
+        fonte:fonteAtual,
+
+        data:new Date()
+            .toLocaleDateString("pt-BR")
+
+    };
+
+
+    projetos.unshift(projeto);
+
+
+    localStorage.setItem(
+        "appforge_projetos",
+        JSON.stringify(projetos)
+    );
+
+
+    mostrarProjetos();
+
+
+    fecharConstrucao();
+
+
+    limparFormulario();
+
+
+    mostrarToast(
+        "Projeto criado com sucesso!"
+    );
+
+}
+
+
+/* =================================
+   MOSTRAR PROJETOS
+================================= */
+
+function mostrarProjetos(){
+
+    const lista =
+        document
+        .getElementById("listaProjetos");
+
+
+    const vazio =
+        document
+        .getElementById("areaVazia");
+
+
+    if(projetos.length === 0){
+
+        lista.innerHTML = "";
+
+        vazio.style.display =
+            "flex";
+
+        return;
+
+    }
+
+
+    vazio.style.display =
+        "none";
+
+
+    lista.innerHTML =
+        projetos
+        .map(function(projeto){
+
+            const icone =
+                projeto.icone
+
+                ?
+
+                `<img
+                    src="${projeto.icone}"
+                    alt="Ícone"
+                >`
+
+                :
+
+                `<div class="icone-padrao">
+                    📱
+                </div>`;
+
+
+            return `
+
+                <div class="projeto">
+
+                    <div class="projeto-icone">
+                        ${icone}
+                    </div>
+
+                    <div class="projeto-info">
+
+                        <strong>
+                            ${escapar(projeto.nome)}
+                        </strong>
+
+                        <small>
+                            Criado em ${projeto.data}
+                        </small>
+
+                    </div>
+
+                    <button
+                        class="abrir"
+                        onclick="abrirProjeto(${projeto.id})">
+
+                        Abrir
+
+                    </button>
+
+                </div>
+
+            `;
+
+        })
+        .join("");
+
+}
+
+
+/* =================================
+   ABRIR PROJETO
+================================= */
+
+function abrirProjeto(id){
+
+    const projeto =
+        projetos.find(
+            function(p){
+                return p.id === id;
+            }
+        );
+
+
+    if(!projeto) return;
+
+
+    document
+        .getElementById("previewNome")
+        .textContent =
+        projeto.nome;
+
+
+    document
+        .getElementById("previewFrame")
+        .srcdoc =
+        projeto.html;
+
+
+    document
+        .getElementById("previewTela")
+        .classList.add("aberta");
+
+}
+
+
+/* =================================
+   LIMPAR FORMULÁRIO
+================================= */
+
+function limparFormulario(){
+
+    document
+        .getElementById("nomeApp")
+        .value = "";
+
+
+    document
+        .getElementById("codigoHtml")
+        .value = "";
+
+
+    document
+        .getElementById("urlHtml")
+        .value = "";
+
+
+    document
+        .getElementById("arquivoHtml")
+        .value = "";
+
+
+    document
+        .getElementById("arquivoIcone")
+        .value = "";
+
+
+    document
+        .getElementById("previewIcone")
+        .innerHTML =
+        `<div class="preview-placeholder">
+            🖼️
+        </div>`;
+
+
+    htmlAtual = "";
+
+    iconeAtual = "";
+
+    selecionarFonte("arquivo");
+
+}
+
+
+/* =================================
+   TOAST
+================================= */
+
+function mostrarToast(mensagem){
+
+    const toast =
+        document
+        .getElementById("toast");
+
+
+    toast.textContent =
+        mensagem;
+
+
+    toast.classList.add("mostrar");
+
+
+    setTimeout(function(){
+
+        toast.classList.remove("mostrar");
+
+    },2500);
+
+}
+
+
+/* =================================
+   MENU
+================================= */
+
+function mostrarInfo(){
+
+    mostrarToast(
+        "AppForge • Construtor de aplicativos"
+    );
+
+}
+
+
+/* =================================
+   PROJETOS
+================================= */
+
+function irProjetos(){
+
+    window.scrollTo({
+        top:0,
+        behavior:"smooth"
+    });
+
+}
+
+
+/* =================================
+   ESCAPAR TEXTO
+================================= */
+
+function escapar(texto){
+
+    const div =
+        document.createElement("div");
+
+    div.textContent =
+        texto;
+
+    return div.innerHTML;
+
+}
+
+
+/* =================================
+   INICIAR
+================================= */
+
+mostrarProjetos();
+
+</script>
+
+</body>
+</html>
